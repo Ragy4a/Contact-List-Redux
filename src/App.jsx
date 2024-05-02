@@ -17,11 +17,11 @@ const App = () => {
         if (data.length > 0) {
           dispatch(getContacts(data));
         } else {
-          ("No contacts found");
+          return "No contacts found";
         }
       })
       .catch((error) => ('Error loading the contacts: ', error));
-  }, [dispatch]);
+  }, [dispatch, contacts]);
 
   const addNewContact = () => {
     dispatch(editContact(createEmptyContact()));
