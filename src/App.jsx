@@ -17,10 +17,10 @@ const App = () => {
         if (data.length > 0) {
           dispatch(getContacts(data));
         } else {
-          console.log("No contacts found");
+          ("No contacts found");
         }
       })
-      .catch((error) => console.error('Error loading the contacts: ', error));
+      .catch((error) => ('Error loading the contacts: ', error));
   }, [dispatch]);
 
   const addNewContact = () => {
@@ -38,7 +38,7 @@ const App = () => {
           dispatch(editContact(createEmptyContact()));
           dispatch(getContacts(contacts.map(item => item.id === data.id ? data : item)));
         })
-        .catch(error => console.error('Error updating the contact: ', error));
+        .catch(error => ('Error updating the contact: ', error));
     } else {
       const newContact = { ...contact };
       api.post('/contacts', newContact)
@@ -46,7 +46,7 @@ const App = () => {
           dispatch(addContact(data));
           dispatch(editContact(createEmptyContact()));
         })
-        .catch(error => console.error('Error creating a new contact: ', error));
+        .catch(error => ('Error creating a new contact: ', error));
     }
   };
 
@@ -55,7 +55,7 @@ const App = () => {
       .then(() => {
         dispatch(deleteContact(id));
       })
-      .catch(error => console.error('Error deleting the contact: ', error));
+      .catch(error => ('Error deleting the contact: ', error));
   };
 
   const createEmptyContact = () => {
