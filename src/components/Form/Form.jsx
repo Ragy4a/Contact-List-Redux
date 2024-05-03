@@ -1,7 +1,14 @@
 import { useState, useEffect } from 'react';
 import './Form.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { addNewContact, updateContact, deleteContact } from '../../store/actions/contactsActions';
+import { createEmptyContact } from '../../store/reducers/contactsReducer';
+import api from '../../api/contacts-service'
 
-const Form = ({ editingContact, onSave, onDelete, onCreateEmptyContact }) => {
+const Form = () => {
+
+  const dispatch = useDispatch();
+  const editingContact = useSelector(state => state.editingContact)
   const [contact, setContact] = useState({ ...editingContact });
 
   useEffect(() => {
@@ -15,6 +22,12 @@ const Form = ({ editingContact, onSave, onDelete, onCreateEmptyContact }) => {
     });
   }
 
+  const onContactDelete = (event) => {
+    event.preventDefault()
+    dispatch(deleteContact())
+    setContact(createEmptyContact());
+  }
+
   const onClearInput = (event) => {
     const sibling = event.target.previousSibling;
     setContact({ 
@@ -23,23 +36,28 @@ const Form = ({ editingContact, onSave, onDelete, onCreateEmptyContact }) => {
     });
   }
 
-  const onContactDelete = () => {
-    onDelete(contact.id);
-    setContact(onCreateEmptyContact());
-  }
-
   const onFormSubmit = (event) => {
     event.preventDefault();
-    onSave(contact);
     if (!contact.id) {
-      setContact(onCreateEmptyContact());
+      const newContact = {...contact}
+      api.post('/contacts', newContact)
+        .then(({ data }) => {
+          dispatch(addNewContact(data))
+          setContact(createEmptyContact())
+        })
+    } else {
+      api.put(`/contacts/${contact.id}`, contact)
+        .then(({ data }) => {
+          dispatch(updateContact(data))
+          setContact(createEmptyContact())
+        })
     }
   }
 
   const isEditing = contact.id !== null;
   return (
     <>
-        <form onSubmit={onFormSubmit}>
+        <form>
             <div className="input-container">
               <div className="wrapper-input">
                 <input 

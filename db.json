@@ -1,3 +1,10 @@
 {
-  "contacts": []
+  "contacts": [
+    {
+      "fName": "Sigma",
+      "lName": "Sigmo4v",
+      "email": "sgimoawd@Gmailc.mo",
+      "phone": "234235345345"
+    }
+  ]
 }

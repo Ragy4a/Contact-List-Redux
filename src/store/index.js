@@ -1,4 +1,9 @@
-import { createStore } from "redux";
+import { applyMiddleware, createStore } from "redux";
+import logger from "redux-logger";
+import { composeWithDevTools } from "@redux-devtools/extension";
+
 import contactReducer from "./reducers/contactsReducer";
 
-export default createStore(contactReducer);
+const middleware = applyMiddleware(logger)
+
+export default createStore(contactReducer, composeWithDevTools(middleware));
