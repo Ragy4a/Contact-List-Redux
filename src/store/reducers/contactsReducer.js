@@ -8,15 +8,23 @@ const initialState = {
 
 export default function contactReducer (state = initialState, { type, payload }) {
     switch(type) {
-        case CONTACT_TYPES.ADD_NEW_CONTACT:
+        case CONTACT_TYPES.CREATE_CONTACT:
             return {
                 ...state,
                 contacts: [...state.contacts, payload],
+                editingContact: createEmptyContact(),
+            }
+        case CONTACT_TYPES.ADD_NEW_CONTACT:
+            return {
+                ...state,
+                editingContact: createEmptyContact(),
             };
         case CONTACT_TYPES.DELETE_CONTACT:
             return {
                 ...state,
-                contacts: state.contacts.filter(contact => contact.id !== payload),
+                contacts: state.contacts.filter(
+                    contact => contact.id !== payload),
+                editingContact: createEmptyContact(),
             }
         case CONTACT_TYPES.SELECT_CONTACT:
             return {

@@ -1,5 +1,10 @@
 import { CONTACT_TYPES } from "./actionTypes";
 
+export const createContact = (contact) => ({
+    type: CONTACT_TYPES.CREATE_CONTACT,
+    payload: contact,
+})
+
 export const addNewContact = (contact) => ({
     type: CONTACT_TYPES.ADD_NEW_CONTACT,
     payload: contact,  

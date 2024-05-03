@@ -7,33 +7,35 @@ import api from '../../api/contacts-service'
 
 const List = () => {
 
-  const dispatch = useDispatch()
   const contacts = useSelector(state => state.contacts)
-console.log(contacts)
-
+  const dispatch = useDispatch()
+  
   useEffect(() => {
-    api.get('/contacts')
-      .then(({ data }) => dispatch(getContacts(data)))
-      .catch(error => `Error to achive contacts: ${error}`)
+    api.get('/contacts/')
+    .then(({ data }) => dispatch(getContacts(data)))
+    .catch(error => `Error to achive contacts: ${error}`)
   }, [dispatch])
   
-
-  const onAddContact = () => {
-    dispatch(addNewContact())
+  const onAddContact = (contact) => {
+    api.post('/contacts/', contact)
+    .then(({ data }) => {
+      dispatch(addNewContact(data))
+    })
+    .catch(error => console.error('Error creating a new contact: ', error));
   }
-  
+
 
   return (
     <div className="list">
       <div className="contacts">
-        <div className="contact">
           {contacts.map((contact) => (
             <Item 
+            key={contact.id}
+            contact={contact}
             />
           ))}
-        </div>
       </div>
-      <button id='create-new' onClick={onAddContact}>New</button>
+      <button id='create-new' onClick={() => onAddContact}>New</button>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 export const CONTACT_TYPES = {
+    CREATE_CONTACT: 'createContact',
     ADD_NEW_CONTACT: 'addNewContact',
     DELETE_CONTACT: 'deleteContact',
     SELECT_CONTACT: 'selectContact',
