@@ -1,8 +1,7 @@
 import { CONTACT_TYPES } from "./actionTypes";
 
-export const createContact = (contact) => ({
+export const createContact = () => ({
     type: CONTACT_TYPES.CREATE_CONTACT,
-    payload: contact,
 })
 
 export const addNewContact = (contact) => ({

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Item from '../Item/Item';
 import './List.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { addNewContact, getContacts } from '../../store/actions/contactsActions';
+import { addNewContact, createContact, getContacts } from '../../store/actions/contactsActions';
 import api from '../../api/contacts-service'
 
 const List = () => {
@@ -11,17 +11,15 @@ const List = () => {
   const dispatch = useDispatch()
   
   useEffect(() => {
-    api.get('/contacts/')
-    .then(({ data }) => dispatch(getContacts(data)))
-    .catch(error => `Error to achive contacts: ${error}`)
-  }, [dispatch])
-  
-  const onAddContact = (contact) => {
-    api.post('/contacts/', contact)
+    api.get('/contacts')
     .then(({ data }) => {
-      dispatch(addNewContact(data))
+      dispatch(getContacts(data))
     })
-    .catch(error => console.error('Error creating a new contact: ', error));
+    .catch(error => `Error to achive contacts: ${error}`)
+  }, [getContacts])
+  
+  const onAddContact = () => {
+    dispatch(createContact())
   }
 
 
@@ -35,7 +33,7 @@ const List = () => {
             />
           ))}
       </div>
-      <button id='create-new' onClick={() => onAddContact}>New</button>
+      <button id='create-new' onClick={onAddContact}>New</button>
     </div>
   );
 }

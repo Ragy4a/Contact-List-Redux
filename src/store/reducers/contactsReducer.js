@@ -11,12 +11,12 @@ export default function contactReducer (state = initialState, { type, payload })
         case CONTACT_TYPES.CREATE_CONTACT:
             return {
                 ...state,
-                contacts: [...state.contacts, payload],
                 editingContact: createEmptyContact(),
             }
         case CONTACT_TYPES.ADD_NEW_CONTACT:
             return {
                 ...state,
+                contacts: [...state.contacts, payload],
                 editingContact: createEmptyContact(),
             };
         case CONTACT_TYPES.DELETE_CONTACT:

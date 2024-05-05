@@ -14,8 +14,7 @@ const Item = ({ contact }) => {
 
   const onDelete = (id) => {
     api.delete(`/contacts/${id}`)
-      .then(({ data }) => dispatch(deleteContact(id)))
-      .catch(error => `Can not to delete contact: ${error}`)
+    dispatch(deleteContact(id))
   }
 
   return (

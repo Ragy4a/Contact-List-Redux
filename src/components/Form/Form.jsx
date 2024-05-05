@@ -24,10 +24,8 @@ const Form = () => {
 
   const onContactDelete = (event) => {
     event.preventDefault()
-    api.delete(`/contacts/${id}`)
-      .then(({ data }) => dispatch(deleteContact(id)))
-      .catch(error => `Can not to delete contact: ${error}`)
-    setContact(createEmptyContact());
+    api.delete(`/contacts/${contact.id}`)
+    dispatch(deleteContact(contact.id))
   }
 
   const onClearInput = (event) => {
@@ -50,13 +48,13 @@ const Form = () => {
     } else {
       api.put(`/contacts/${contact.id}`, contact)
         .then(({ data }) => {
+          console.log(data)
           dispatch(updateContact(data))
           setContact(createEmptyContact())
         })
     }
   }
 
-  const isEditing = contact.id !== null;
   return (
     <>
         <form onSubmit={onFormSubmit}>
@@ -110,7 +108,7 @@ const Form = () => {
             </div>
             <div className="btn-container">
                 <button type='submit'>Save</button>
-                {isEditing && (
+                {contact.id && (
                   <button onClick={onContactDelete}>Delete</button>
                 )}
             </div>
