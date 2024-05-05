@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import Item from '../Item/Item';
 import './List.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { addNewContact, createContact, getContacts } from '../../store/actions/contactsActions';
-import api from '../../api/contacts-service'
+import { getContactsAction, createContact } from '../../store/actions/contactsActions';
 
 const List = () => {
 
@@ -11,12 +10,8 @@ const List = () => {
   const dispatch = useDispatch()
   
   useEffect(() => {
-    api.get('/contacts')
-    .then(({ data }) => {
-      dispatch(getContacts(data))
-    })
-    .catch(error => `Error to achive contacts: ${error}`)
-  }, [getContacts])
+    dispatch(getContactsAction())
+  }, [dispatch])
   
   const onAddContact = () => {
     dispatch(createContact())

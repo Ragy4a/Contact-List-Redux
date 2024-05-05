@@ -4,7 +4,7 @@ import { contactsState } from "../../model/initialState";
 const initialState = {
     contacts: contactsState,
     editingContact: createEmptyContact(),
-    is
+    isFetching: false,
 }
 
 export default function contactReducer (state = initialState, { type, payload }) {

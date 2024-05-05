@@ -41,7 +41,7 @@ export function* updateContactSaga ({ payload }) {
     try {
         const updatedContact = yield api.put(`/contacts/${payload.id}`, payload)
             .then(({ data }) => data);
-        yield put(updateContactSuccess(data));
+        yield put(updateContactSuccess(updatedContact));
     } catch (error) {
         yield put(updateContactError(error));
     }

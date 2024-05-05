@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import './Form.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { addNewContact, updateContact, deleteContact } from '../../store/actions/contactsActions';
 import { createEmptyContact } from '../../store/reducers/contactsReducer';
-import api from '../../api/contacts-service'
+import { addNewContactAction, deleteContactAction, updateContactAction } from '../../store/actions/contactsActions';
 
 const Form = () => {
 
@@ -24,8 +23,7 @@ const Form = () => {
 
   const onContactDelete = (event) => {
     event.preventDefault()
-    api.delete(`/contacts/${contact.id}`)
-    dispatch(deleteContact(contact.id))
+    dispatch(deleteContactAction(contact.id))
   }
 
   const onClearInput = (event) => {
@@ -40,18 +38,11 @@ const Form = () => {
     event.preventDefault();
     if (!contact.id) {
       const newContact = {...contact}
-      api.post('/contacts/', newContact)
-        .then(({ data }) => {
-          dispatch(addNewContact(data))
-          setContact(createEmptyContact())
-        })
+      dispatch(addNewContactAction(newContact))
+      setContact(createEmptyContact())
     } else {
-      api.put(`/contacts/${contact.id}`, contact)
-        .then(({ data }) => {
-          console.log(data)
-          dispatch(updateContact(data))
-          setContact(createEmptyContact())
-        })
+      dispatch(updateContactAction(contact))
+      setContact(createEmptyContact())
     }
   }
 
