@@ -24,11 +24,6 @@ export const selectContact = (contact) => ({
     payload: contact,
 })
 
-export const saveContact = (contact) => ({
-    type: CONTACT_TYPES.SAVE_CONTACT,
-    payload: contact,
-})
-
 
 export const getContacts = (contacts) => ({
     type: CONTACT_TYPES.GET_CONTACTS,
