@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
-import './Form.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { createEmptyContact } from '../../store/reducers/contactsReducer';
+import './Form.css';
 import { addNewContactAction, deleteContactAction, updateContactAction } from '../../store/actions/contactsActions';
 
 const Form = () => {
 
   const dispatch = useDispatch();
   const editingContact = useSelector(state => state.editingContact)
+  const isEditing = useSelector(state => state.isEditing)
   const [contact, setContact] = useState({ ...editingContact });
 
   useEffect(() => {
@@ -37,12 +37,9 @@ const Form = () => {
   const onFormSubmit = (event) => {
     event.preventDefault();
     if (!contact.id) {
-      const newContact = {...contact}
-      dispatch(addNewContactAction(newContact))
-      setContact(createEmptyContact())
+      dispatch(addNewContactAction(contact))
     } else {
       dispatch(updateContactAction(contact))
-      setContact(createEmptyContact())
     }
   }
 
@@ -99,7 +96,7 @@ const Form = () => {
             </div>
             <div className="btn-container">
                 <button type='submit'>Save</button>
-                {contact.id && (
+                {isEditing && (
                   <button onClick={onContactDelete}>Delete</button>
                 )}
             </div>

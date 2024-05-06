@@ -5,6 +5,8 @@ const initialState = {
     contacts: contactsState,
     editingContact: createEmptyContact(),
     isFetching: false,
+    error: null,
+    isEditing: false,
 }
 
 export default function contactReducer (state = initialState, { type, payload }) {
@@ -14,11 +16,13 @@ export default function contactReducer (state = initialState, { type, payload })
             return {
                 ...state,
                 editingContact: createEmptyContact(),
+                isEditing: false,
             }
             case CONTACT_TYPES.SELECT_CONTACT:
                 return {
                     ...state,
                     editingContact: payload,
+                    isEditing: true,
                 }
                 
         // Success
@@ -43,7 +47,6 @@ export default function contactReducer (state = initialState, { type, payload })
             return {
                 ...state,
                 contacts: updatedContacts,
-                editingContact: createEmptyContact(),
                 isFetching: false,
             };
         case CONTACT_TYPES.GET_CONTACTS_SUCCESS:

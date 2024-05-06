@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Item from '../Item/Item';
 import './List.css';
-import { useDispatch, useSelector } from 'react-redux';
 import { getContactsAction, createContact } from '../../store/actions/contactsActions';
 
 const List = () => {

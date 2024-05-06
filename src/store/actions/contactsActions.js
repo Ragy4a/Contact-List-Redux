@@ -21,9 +21,8 @@ export const updateContactAction = (contact) => ({
     payload: contact,
 })
 
-export const getContactsAction = (contacts) => ({
+export const getContactsAction = () => ({
     type: CONTACT_TYPES.GET_CONTACTS_ACTION,
-    payload: contacts,
 })
 
 export const deleteContactAction = (id) => ({

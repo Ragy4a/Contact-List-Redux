@@ -1,6 +1,6 @@
 import React from 'react';
-import './Item.css';
 import { useDispatch } from 'react-redux';
+import './Item.css';
 import { deleteContactAction, selectContact } from '../../store/actions/contactsActions';
 
 const Item = ({ contact }) => {
