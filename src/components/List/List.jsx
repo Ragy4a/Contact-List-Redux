@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import Item from '../Item/Item';
-import './List.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { addNewContact, createContact, getContacts } from '../../store/actions/contactsActions';
+import Item from '../Item/Item';
+import { createContact, getContacts } from '../../store/actions/contactsActions';
+import './List.css';
 import api from '../../api/contacts-service'
 
 const List = () => {

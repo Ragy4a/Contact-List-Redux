@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import './Form.css';
 import { useDispatch, useSelector } from 'react-redux';
+import './Form.css';
 import { addNewContact, updateContact, deleteContact } from '../../store/actions/contactsActions';
-import { createEmptyContact } from '../../store/reducers/contactsReducer';
 import api from '../../api/contacts-service'
 
 const Form = () => {
 
   const dispatch = useDispatch();
   const editingContact = useSelector(state => state.editingContact)
+  const isEditing = useSelector(state => state.isEditing)
   const [contact, setContact] = useState({ ...editingContact });
 
   useEffect(() => {
@@ -43,14 +43,12 @@ const Form = () => {
       api.post('/contacts/', newContact)
         .then(({ data }) => {
           dispatch(addNewContact(data))
-          setContact(createEmptyContact())
         })
     } else {
       api.put(`/contacts/${contact.id}`, contact)
         .then(({ data }) => {
           console.log(data)
           dispatch(updateContact(data))
-          setContact(createEmptyContact())
         })
     }
   }
@@ -108,7 +106,7 @@ const Form = () => {
             </div>
             <div className="btn-container">
                 <button type='submit'>Save</button>
-                {contact.id && (
+                {isEditing && (
                   <button onClick={onContactDelete}>Delete</button>
                 )}
             </div>

@@ -4,6 +4,7 @@ import { contactsState } from "../../model/initialState";
 const initialState = {
     contacts: contactsState,
     editingContact: createEmptyContact(),
+    isEditing: false,
 }
 
 export default function contactReducer (state = initialState, { type, payload }) {
@@ -12,6 +13,7 @@ export default function contactReducer (state = initialState, { type, payload })
             return {
                 ...state,
                 editingContact: createEmptyContact(),
+                isEditing: false,
             }
         case CONTACT_TYPES.ADD_NEW_CONTACT:
             return {
@@ -30,6 +32,7 @@ export default function contactReducer (state = initialState, { type, payload })
             return {
                 ...state,
                 editingContact: payload,
+                isEditing: true,
             }
         case CONTACT_TYPES.UPDATE_CONTACT:
             const updatedContacts = state.contacts.map(contact =>
@@ -37,7 +40,6 @@ export default function contactReducer (state = initialState, { type, payload })
             return {
                 ...state,
                 contacts: updatedContacts,
-                editingContact: createEmptyContact(),
             };
         case CONTACT_TYPES.GET_CONTACTS:
             return {
