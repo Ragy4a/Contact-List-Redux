@@ -3,12 +3,13 @@ import { useDispatch } from 'react-redux';
 import './Item.css';
 import { deleteContactAction, selectContact } from '../../store/actions/contactsActions';
 
-const Item = ({ contact }) => {
+const Item = ({ contact, setIsEditing }) => {
 
   const dispatch = useDispatch()
 
   const onEdit = (contact) => {
     dispatch(selectContact(contact))
+    setIsEditing(true)
   }
 
   const onDelete = (id) => {

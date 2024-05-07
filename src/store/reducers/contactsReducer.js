@@ -6,23 +6,19 @@ const initialState = {
     editingContact: createEmptyContact(),
     isFetching: false,
     error: null,
-    isEditing: false,
 }
 
 export default function contactReducer (state = initialState, { type, payload }) {
     switch(type) {
-
         case CONTACT_TYPES.CREATE_CONTACT:
             return {
                 ...state,
                 editingContact: createEmptyContact(),
-                isEditing: false,
             }
             case CONTACT_TYPES.SELECT_CONTACT:
                 return {
                     ...state,
                     editingContact: payload,
-                    isEditing: true,
                 }
                 
         // Success

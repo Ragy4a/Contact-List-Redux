@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import './Form.css';
 import { addNewContactAction, deleteContactAction, updateContactAction } from '../../store/actions/contactsActions';
 
-const Form = () => {
+const Form = ({ isEditing }) => {
 
   const dispatch = useDispatch();
   const editingContact = useSelector(state => state.editingContact)
-  const isEditing = useSelector(state => state.isEditing)
   const [contact, setContact] = useState({ ...editingContact });
 
   useEffect(() => {
