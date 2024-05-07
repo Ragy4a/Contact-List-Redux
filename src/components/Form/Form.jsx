@@ -4,11 +4,10 @@ import './Form.css';
 import { addNewContact, updateContact, deleteContact } from '../../store/actions/contactsActions';
 import api from '../../api/contacts-service'
 
-const Form = () => {
+const Form = ({ isEditing }) => {
 
   const dispatch = useDispatch();
   const editingContact = useSelector(state => state.editingContact)
-  const isEditing = useSelector(state => state.isEditing)
   const [contact, setContact] = useState({ ...editingContact });
 
   useEffect(() => {
@@ -39,8 +38,7 @@ const Form = () => {
   const onFormSubmit = (event) => {
     event.preventDefault();
     if (!contact.id) {
-      const newContact = {...contact}
-      api.post('/contacts/', newContact)
+      api.post('/contacts/', contact)
         .then(({ data }) => {
           dispatch(addNewContact(data))
         })

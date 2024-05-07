@@ -4,12 +4,13 @@ import './Item.css';
 import { deleteContact, selectContact } from '../../store/actions/contactsActions';
 import api from '../../api/contacts-service'
 
-const Item = ({ contact }) => {
+const Item = ({ contact, setIsEditing }) => {
 
   const dispatch = useDispatch()
 
   const onEdit = (contact) => {
     dispatch(selectContact(contact))
+    setIsEditing(true)
   }
 
   const onDelete = (id) => {
