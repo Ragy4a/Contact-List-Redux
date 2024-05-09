@@ -4,7 +4,7 @@ import Item from '../Item/Item';
 import './List.css';
 import { getContactsAction, createContact } from '../../store/actions/contactsActions';
 
-const List = ({ setIsEditing }) => {
+const List = () => {
 
   const contacts = useSelector(state => state.contacts)
   const dispatch = useDispatch()
@@ -15,7 +15,6 @@ const List = ({ setIsEditing }) => {
   
   const onAddContact = () => {
     dispatch(createContact());
-    setIsEditing(false)
   }
 
 
@@ -24,7 +23,6 @@ const List = ({ setIsEditing }) => {
       <div className="contacts">
           {contacts.map((contact) => (
             <Item
-            setIsEditing={setIsEditing}
             key={contact.id}
             contact={contact}
             />

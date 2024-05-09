@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './Form.css';
 import { addNewContactAction, deleteContactAction, updateContactAction } from '../../store/actions/contactsActions';
 
-const Form = ({ isEditing }) => {
+const Form = () => {
 
   const dispatch = useDispatch();
   const editingContact = useSelector(state => state.editingContact)
@@ -95,7 +95,7 @@ const Form = ({ isEditing }) => {
             </div>
             <div className="btn-container">
                 <button type='submit'>Save</button>
-                {isEditing && (
+                {contact.id && (
                   <button onClick={onContactDelete}>Delete</button>
                 )}
             </div>
