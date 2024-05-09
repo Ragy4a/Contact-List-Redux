@@ -1,7 +1,6 @@
 import List from './components/List/List'
 import Form from './components/Form/Form';
 import './App.css';
-import { useState } from 'react';
 
 
 function App ()  {
