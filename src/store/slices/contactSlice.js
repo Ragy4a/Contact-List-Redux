@@ -12,16 +12,15 @@ const initialState = {
 };
 
 export const getContacts = createAsyncThunk(
-    `${CONTACT_SLICE_NAME}/getMovies`,
+    `${CONTACT_SLICE_NAME}/getContacts`,
     async (_, {rejectWithValue}) => {
         try {
-            const response = await api.get(`/${CONTACT_SLICE_NAME}/`);
-            if(response.status >= 400){
-                throw new Error(`Error with getting contacts. Error status is ${response.status}`);
+            const { status, data } = await api.get(`/${CONTACT_SLICE_NAME}/`);
+            if(status >= 400){
+                throw new Error(`Error with getting contacts. Error status is ${status}`);
             }
-            return response.data;
-        }
-        catch (error) {
+            return data;
+        } catch (error) {
             return rejectWithValue(error.message);
         }
     }
@@ -29,13 +28,13 @@ export const getContacts = createAsyncThunk(
 
 export const createContact = createAsyncThunk(
     `${CONTACT_SLICE_NAME}/createContact`,
-    async (contact, {rejectWithValue, dispatch}) => {
+    async (contact, {rejectWithValue}) => {
         try {
-            const response = await api.post(`/${CONTACT_SLICE_NAME}/`, contact);
-            if(response.status >= 400) {
-                throw new Error(`Can not create contact. Error status is ${response.status}.`);
+            const { status, data } = await api.post(`/${CONTACT_SLICE_NAME}/`, contact);
+            if(status >= 400) {
+                throw new Error(`Can not create contact. Error status is ${status}.`);
             };
-            dispatch(makeContact(response.data))
+            return data;
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -44,13 +43,13 @@ export const createContact = createAsyncThunk(
 
 export const deleteContact = createAsyncThunk(
     `${CONTACT_SLICE_NAME}/deleteContact`,
-    async (contactId, {rejectWithValue, dispatch}) => {
+    async (contactId, {rejectWithValue}) => {
         try {
-            const response = await api.delete(`/${CONTACT_SLICE_NAME}/${contactId}`);
-            if(response.status >= 400) {
-                throw new Error(`Failed to delete contact. Error status is ${response.status}.`);
+            const { status } = await api.delete(`/${CONTACT_SLICE_NAME}/${contactId}`);
+            if(status >= 400) {
+                throw new Error(`Failed to delete contact. Error status is ${status}.`);
             };
-            dispatch(removeContact(contactId));
+            return contactId;
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -59,13 +58,13 @@ export const deleteContact = createAsyncThunk(
 
 export const editContact = createAsyncThunk(
     `${CONTACT_SLICE_NAME}/editContact`,
-    async (contact, {rejectWithValue, dispatch}) => {
+    async (contact, {rejectWithValue}) => {
         try {
-            const response = await api.put(`/${CONTACT_SLICE_NAME}/${contact.id}`, contact);
-            if(response.status >= 400) {
-                throw new Error(`Failed to update contact. Error status is ${response.status}.`);
+            const { status, data } = await api.put(`/${CONTACT_SLICE_NAME}/${contact.id}`, contact);
+            if(status >= 400) {
+                throw new Error(`Failed to update contact. Error status is ${status}.`);
             };
-            dispatch(changeContact(response.data));
+            return data;
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -86,24 +85,6 @@ const contactSlice = createSlice({
     name: CONTACT_SLICE_NAME,
     initialState,
     reducers: {
-
-        makeContact(state, { payload }) {
-            state.contacts.push(payload)
-        },
-
-        removeContact(state, { payload }) {
-            state.contacts = [
-                ...state.contacts.filter((contact) => contact.id !== payload)
-            ];
-            state.editingContact = createEmptyContact();
-        },
-
-        changeContact(state, { payload }) {
-            state.contacts = state.contacts.map((contact) =>
-                contact.id === payload.id ? payload : contact
-            );
-        },
-
         addNewContact(state) {
             state.editingContact = createEmptyContact();
         },
@@ -120,15 +101,21 @@ const contactSlice = createSlice({
                 state.error = null;
                 state.contacts = payload;
             })
-            .addCase(createContact.fulfilled, (state) => {
+            .addCase(createContact.fulfilled, (state, { payload }) => {
+                state.contacts.push(payload)
                 state.isFetching = false;
                 state.error = null;
             })
-            .addCase(deleteContact.fulfilled, (state) => {
+            .addCase(deleteContact.fulfilled, (state, { payload }) => {
+                state.contacts = [
+                    ...state.contacts.filter((contact) => contact.id !== payload)];
+                state.editingContact = createEmptyContact();
                 state.isFetching = false;
                 state.error = null;
             })
-            .addCase(editContact.fulfilled, (state) => {
+            .addCase(editContact.fulfilled, (state, { payload }) => {
+                state.contacts = state.contacts.map((contact) =>
+                contact.id === payload.id ? payload : contact);
                 state.isFetching = false;
                 state.error = null;
             })
@@ -148,8 +135,6 @@ const contactSlice = createSlice({
 })
 
 const { actions, reducer } = contactSlice;
-
-const { makeContact, removeContact, changeContact } = actions;
 
 export const { addNewContact, selectContact } = actions;
 
