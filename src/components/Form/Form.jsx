@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './Form.css';
-import { addNewContact, updateContact, deleteContact } from '../../store/actions/contactsActions';
-import api from '../../api/contacts-service'
+import { createContact, editContact, deleteContact } from '../../store/slices/contactSlice';
 
 const Form = () => {
 
   const dispatch = useDispatch();
-  const editingContact = useSelector(state => state.editingContact)
-  const [contact, setContact] = useState({ ...editingContact });
+  const editingContact = useSelector(state => state.contactList.editingContact)
+  const [contact, setContact] = useState(editingContact);
 
   useEffect(() => {
-    setContact({ ...editingContact });
+    setContact(editingContact);
   }, [editingContact]);
 
   const onInputChange = (event) => {
@@ -23,7 +22,6 @@ const Form = () => {
 
   const onContactDelete = (event) => {
     event.preventDefault()
-    api.delete(`/contacts/${contact.id}`)
     dispatch(deleteContact(contact.id))
   }
 
@@ -38,16 +36,10 @@ const Form = () => {
   const onFormSubmit = (event) => {
     event.preventDefault();
     if (!contact.id) {
-      api.post('/contacts/', contact)
-        .then(({ data }) => {
-          dispatch(addNewContact(data))
-        })
+      setContact(editingContact);
+      dispatch(createContact(contact));
     } else {
-      api.put(`/contacts/${contact.id}`, contact)
-        .then(({ data }) => {
-          console.log(data)
-          dispatch(updateContact(data))
-        })
+      dispatch(editContact(contact));
     }
   }
 

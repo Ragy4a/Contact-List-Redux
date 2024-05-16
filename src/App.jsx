@@ -4,8 +4,6 @@ import './App.css';
 
 
 function App ()  {
-
-
   return (
     <div className="project-container">
       <h2>Contact List</h2>

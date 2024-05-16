@@ -12,7 +12,7 @@ const initialState = {
 };
 
 export const getContacts = createAsyncThunk(
-    `/${CONTACT_SLICE_NAME}/getMovies`,
+    `${CONTACT_SLICE_NAME}/getMovies`,
     async (_, {rejectWithValue}) => {
         try {
             const response = await api.get(`/${CONTACT_SLICE_NAME}/`);
@@ -28,7 +28,7 @@ export const getContacts = createAsyncThunk(
 );
 
 export const createContact = createAsyncThunk(
-    `/${CONTACT_SLICE_NAME}/createContact`,
+    `${CONTACT_SLICE_NAME}/createContact`,
     async (contact, {rejectWithValue, dispatch}) => {
         try {
             const response = await api.post(`/${CONTACT_SLICE_NAME}/`, contact);
@@ -58,11 +58,10 @@ export const deleteContact = createAsyncThunk(
 );
 
 export const editContact = createAsyncThunk(
-    `/${CONTACT_SLICE_NAME}/editContact`,
-    async (contactId, {rejectWithValue, dispatch, getState}) => {
-        const newContact = getState().contactList.contacts.editingContact;
+    `${CONTACT_SLICE_NAME}/editContact`,
+    async (contact, {rejectWithValue, dispatch}) => {
         try {
-            const response = await api.put(`/${CONTACT_SLICE_NAME}/${contactId}`, newContact);
+            const response = await api.put(`/${CONTACT_SLICE_NAME}/${contact.id}`, contact);
             if(response.status >= 400) {
                 throw new Error(`Failed to update contact. Error status is ${response.status}.`);
             };
@@ -95,13 +94,14 @@ const contactSlice = createSlice({
         removeContact(state, { payload }) {
             state.contacts = [
                 ...state.contacts.filter((contact) => contact.id !== payload)
-            ]
+            ];
+            state.editingContact = createEmptyContact();
         },
 
-        changeContact (state, { payload }) {
-            state.contacts = state.contacts.map((contact) => {
-                return contact.id === payload.id ? payload : contact
-            });
+        changeContact(state, { payload }) {
+            state.contacts = state.contacts.map((contact) =>
+                contact.id === payload.id ? payload : contact
+            );
         },
 
         addNewContact(state) {
@@ -120,22 +120,17 @@ const contactSlice = createSlice({
                 state.error = null;
                 state.contacts = payload;
             })
-            .addCase(createContact.fulfilled, (state, { payload }) => {
+            .addCase(createContact.fulfilled, (state) => {
                 state.isFetching = false;
                 state.error = null;
-                state.contacts.push(payload);
             })
-            .addCase(deleteContact.fulfilled, (state, { payload }) => {
+            .addCase(deleteContact.fulfilled, (state) => {
                 state.isFetching = false;
                 state.error = null;
-                state.contacts = state.contacts.filter((contact) => contact.id !== payload)
             })
-            .addCase(editContact.fulfilled, (state, { payload }) => {
+            .addCase(editContact.fulfilled, (state) => {
                 state.isFetching = false;
                 state.error = null;
-                state.contacts = state.contacts.map((contact) => {
-                    return contact.id === payload.id ? payload : contact
-                });
             })
 
             // Pending
