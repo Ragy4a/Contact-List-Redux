@@ -17,6 +17,11 @@ form input {
     padding: 10px; 
 }
 
+.error {
+    color: red;
+    font-size: 1.2rem;
+}
+
 .wrapper-input > span {
     border-radius: 5px;
     display: block;
