@@ -1,3 +1,41 @@
 {
-  "contacts": []
+  "contacts": [
+    {
+      "fName": "Alex",
+      "lName": "Doe",
+      "email": "alex.doe@gmail.com",
+      "phone": "+418906424",
+      "image": "https://cdn.icon-icons.com/icons2/1879/PNG/512/iconfinder-1-avatar-2754574_120513.png",
+      "id": 3
+    },
+    {
+      "fName": "Dmitry",
+      "lName": "Aplenstein",
+      "phone": "+1753876532",
+      "email": "dmitry@apha.com",
+      "id": 4
+    },
+    {
+      "fName": "Sophie",
+      "lName": "Rain",
+      "phone": "+56347346",
+      "email": "sophie.rain@gmail.com",
+      "id": 5
+    },
+    {
+      "fName": "Mad",
+      "lName": "Max",
+      "phone": "+983453456",
+      "email": "furios.max@rout.com",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0yg2WBmSihq5flz2kcGtLc_cOfX_-hYjqbQ&s",
+      "id": 6
+    },
+    {
+      "fName": "Alfred",
+      "lName": "McDougals",
+      "phone": "+3809441234",
+      "email": "mcdouglas.alf@ukr.net",
+      "id": 7
+    }
+  ]
 }

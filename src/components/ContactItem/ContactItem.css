@@ -1,0 +1,13 @@
+#item {
+    background-color: #474646;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+#content {
+    font-size: 1.2rem;
+}
+
+#delete {
+    color: red;
+}

@@ -1,0 +1,14 @@
+#container-lists {
+    margin-right: 10px;
+    width: 50%;
+}
+
+#item-list {
+    overflow: auto;
+    height: 90%;
+    max-height: 285px;
+}
+
+#new {
+    margin-top: 5px;
+}

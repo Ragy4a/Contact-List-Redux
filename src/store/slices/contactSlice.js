@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import api from '../../api/contacts-service';
 import { contactsState } from "../../model/initialState";
-import { CONTACT_SLICE_NAME } from "../../constants/constants";
+import { CONTACT_SLICE_NAME, createEmptyContact } from "../../constants/constants";
 
 const initialState = {
     contacts: contactsState,
@@ -103,6 +103,7 @@ const contactSlice = createSlice({
             })
             .addCase(createContact.fulfilled, (state, { payload }) => {
                 state.contacts.push(payload)
+                state.editingContact = createEmptyContact();
                 state.isFetching = false;
                 state.error = null;
             })
@@ -137,14 +138,5 @@ const contactSlice = createSlice({
 const { actions, reducer } = contactSlice;
 
 export const { addNewContact, selectContact } = actions;
-
-function createEmptyContact () {
-    return {
-        fName: '',
-        lName: '',
-        phone: '',
-        email: '',
-    }
-};
 
 export default reducer;
